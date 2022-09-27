@@ -6,12 +6,15 @@
     <input text="email" required v-model="user.last_name" />
     <label>Email:</label>
     <input text="email" required v-model="user.email" />
+    <div v-if="getErrors?.response?.data.errors.email[0]">
+      {{getErrors?.response?.data.errors?.email[0]}}
+
+    </div>
 
     <label>Password:</label>
     <input type="password" required v-model="user.password" />
     <label>Confirm Password:</label>
     <input type="password" required v-model="user.password_confirmation" />
-   {{getErrors?.response?.data.errors.email[0]}}
     <div class="terms">
       <input type="checkbox" required v-model="user.terms_of_service" />
       <label>Accept terms and condition</label>
@@ -48,7 +51,6 @@ export default {
     computed: {
       
           getErrors() {
-            console.log('Errorssssss',store.getters.getErrors)
             return store.getters.getErrors
           },
 

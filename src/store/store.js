@@ -12,7 +12,7 @@ export default createStore({
         token: localStorage.getItem("token"),
         user: null,
         errors: null,
-        
+        activeUser: null,
     },
     
     getters: {
@@ -34,7 +34,16 @@ export default createStore({
        SET_ERRORS(state,errors){
         console.log("SET_ERRORS", errors)
         state.errors = errors;
+       },
+       SET_ACTIVE_USER(state,{user}){
+        state.activeUser = user,
+        state.errors = null
+       },
+       SET_TOKEN(state,token){
+        state.token = token;
+        console.log("Current token", state.token)
        }
+       
     },
 
     actions: {
@@ -48,7 +57,21 @@ export default createStore({
             console.log("Error inside catch:" ,e);
             commit("SET_ERRORS",e)
            }
+        },
+        async login({commit},user){
+            console.log("Login user", user)
+            try{
+                const data = await AuthService.login(user);
+                commit("SET_ACTIVE_USER", await AuthService.login(user))
+                commit("SET_TOKEN",data.token)
+                commit("SET_ACTIVE_USER",user)
+                console.log("Data token",data)
+                router.push({name:"home"})
+            }catch(e){
+                commit("SET_ERRORS",e);
+            }
         }
+        
     }
 
 })

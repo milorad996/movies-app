@@ -6,7 +6,7 @@ class AuthService extends HttpService {
         this.login = this.login.bind(this);
     }
 
-    async login(credentials) {
+    login = async (credentials) => {
         const { data } = await this.client.post("/login", credentials);
         return data;
     }
