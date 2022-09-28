@@ -1,13 +1,48 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-    <router-link to="/register">Register</router-link>
-    <router-link to="/login">Login</router-link>
-    <router-link to="/create-movie">Create Movie</router-link>
-  </nav>
+  <NavBarComponent/>
+  
   <router-view/>
 </template>
+
+
+<script>
+import store from './store/store'
+import NavBarComponent from './components/NavBarComponent.vue';
+  export default {
+       data() {
+          return {
+               isAuthenticated : false,
+          }
+       },
+       components: {
+    NavBarComponent,
+
+},
+       methods: {
+        activeUser(){
+          setTimeout(() => {
+            console.log("ppppppppppppp", store.getters.getActiveUser )
+            console.log("get tokennnnnnn", store.state.token)
+          }, 3000);
+        }
+       },
+       computed: {
+        getActiveUser() {
+        
+            console.log("ppppppppppppp", store.state.activeUser )
+
+          
+          
+          return store.getters.getActiveUser
+        }
+       }
+      
+       
+
+
+       
+  }
+  </script>
 
 <style>
 #app {
@@ -23,11 +58,11 @@ nav {
 }
 
 nav a {
-  font-weight: bold;
+  font-weight: bold; 
   color: #2c3e50;
 }
 
-nav a.router-link-exact-active {
+ nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>

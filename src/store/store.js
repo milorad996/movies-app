@@ -11,14 +11,23 @@ export default createStore({
     state: {
         token: localStorage.getItem("token"),
         user: null,
-        errors: null,
+        errors: [],
         activeUser: null,
     },
     
     getters: {
         getErrors(state)  {
             return state.errors
-        }
+        },
+        getActiveUser(state) {
+            return state.activeUser;
+            
+        },
+        getToken(state){
+            return state.token
+        },
+        isAuthenticated: state => !!state.activeUser,    
+
        
         
         
@@ -35,12 +44,15 @@ export default createStore({
         console.log("SET_ERRORS", errors)
         state.errors = errors;
        },
-       SET_ACTIVE_USER(state,{user}){
+       SET_ACTIVE_USER(state,user){
+        console.log("Acitiveee" ,user)
         state.activeUser = user,
         state.errors = null
        },
        SET_TOKEN(state,token){
         state.token = token;
+        localStorage.setItem('token', token);
+
         console.log("Current token", state.token)
        }
        
@@ -65,12 +77,33 @@ export default createStore({
                 commit("SET_ACTIVE_USER", await AuthService.login(user))
                 commit("SET_TOKEN",data.token)
                 commit("SET_ACTIVE_USER",user)
-                console.log("Data token",data)
+                
                 router.push({name:"home"})
             }catch(e){
                 commit("SET_ERRORS",e);
             }
+        },
+        async userProfile({commit}){
+            try{
+            commit("SET_ACTIVE_USER", await AuthService.getMyProfile())
+                
+            }catch(e){
+                console.log("Error", e);
+            }
+        },
+        async logout({commit}){
+            try{
+                await AuthService.logout()
+                commit("SET_ACTIVE_USER", {user: null})
+                router.push({name: "LoginPage"})
+                console.log("Successed logout",)
+            }catch(e){
+                console.log(e);
+            }
         }
+        
+
+
         
     }
 
