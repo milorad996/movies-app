@@ -9,12 +9,16 @@ import {createStore} from 'vuex'
 export default createStore({
     state: {
         movies: [],
+        movie: null,
     },
     
     getters: {
         getMovies(state)  {
             return state.movies
-        },   
+        },
+        getMovie(state){
+            return state.movie
+        }   
 
 
        
@@ -26,6 +30,10 @@ export default createStore({
       SET_MOVIES(state,movies){
         console.log("All movies", movies)
         state.movies = movies;
+      },
+      SET_MOVIE(state,movie){
+        console.log("Single movie", movie)
+        state.movie = movie;
       }
        
        
@@ -39,6 +47,15 @@ export default createStore({
                 commit("SET_MOVIES",movies)
             }catch(e){
                 console.log(e);
+            }
+        },
+        async getMovie({commit},id){
+            try{
+                const movie = await MovieService.get(id);
+                commit("SET_MOVIE",movie)
+
+            }catch(e){
+                console.log(e)
             }
         }
 

@@ -1,9 +1,9 @@
 <template>
   <h1>All movies</h1>
-  <div class="card" v-for="movie in getMovies" :key="movie.id">
+  <div class="card" v-for="movie in movies" :key="movie.id">
   <img :src="movie?.image" alt="Avatar" style="width:100%">
   <div class="container">
-    <h4><b>Title: {{movie?.title}}</b></h4>
+    <h4><b>Title: <router-link :to="'/movies/' + movie.id"> {{movie?.title}}</router-link> </b></h4>
     <h3>Genre: {{movie?.genre}}</h3>
     <p>Description: {{movie?.description}}</p>
   </div>
@@ -16,11 +16,11 @@ import moviesStore from '@/store/moviesStore'
 export default {
     data(){
       return {
-          movies: [],
+
       }
     },
     computed: {
-      getMovies() {
+      movies() {
         console.log("Movies in movie list",moviesStore.getters.getMovies.data )
          return moviesStore.getters.getMovies
       }
@@ -46,6 +46,10 @@ h1{
   width: 40%;
   background: white;
   display: inline-block;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  box-shadow: 5px 5px greenyellow;
+
 }
 
 .card:hover {
@@ -54,5 +58,6 @@ h1{
 
 .container {
   padding: 2px 16px;
+  
 }
 </style>
