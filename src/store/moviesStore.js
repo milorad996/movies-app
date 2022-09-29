@@ -1,3 +1,4 @@
+import router from "@/router";
 import MovieService from "@/services/MovieService";
 import { createStore } from "vuex";
 
@@ -29,6 +30,10 @@ export default createStore({
       console.log("Apendovani muvi", movies);
      state.movies.data = state.movies.data.concat(movies.data)
     },
+    ADD_MOVIE(state,movie){
+        console.log("Dobijen movie", movie)
+        state.movies.data.push(movie)
+    }
   },
 
   actions: {
@@ -52,5 +57,14 @@ export default createStore({
         console.log(e);
       }
     },
+    async createMovie({commit}, newMovie){
+        try{
+            const movie = await MovieService.createMovie(newMovie);
+            commit("ADD_MOVIE",movie)       
+            router.push({ name: "MovieListPage" });
+        }catch(e){
+            console.log("Error add movie" , e)
+        }
+    }
   },
 });

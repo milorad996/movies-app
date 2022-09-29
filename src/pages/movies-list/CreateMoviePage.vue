@@ -1,26 +1,24 @@
 <template>
   <form @submit.prevent="handleSubmit">
     <label>Title:</label>
-    <input text="text" required v-model="movie.Title" />
+    <input text="text" required v-model="movie.title" />
     <label>Description:</label>
     <input text="text" required v-model="movie.description" />
     <label>Image:</label>
     <input text="text" required v-model="movie.image" />
-    
+
     <select v-model="movie.genre">
-    <option disabled value="">Please select one</option>
-    <option>Action</option>
-    <option>Adventure</option>
-    <option>Comedy</option>
-    <option>Drama</option>
-    <option>Fantasy</option>
-    <option>Horror</option>
-    <option>Musicals</option>
-    <option>Mystery</option>
-    <option>Romance</option>
-    <option>Thriller</option>
-
-
+      <option disabled value="">Please select one</option>
+      <option>Action</option>
+      <option>Adventure</option>
+      <option>Comedy</option>
+      <option>Drama</option>
+      <option>Fantasy</option>
+      <option>Horror</option>
+      <option>Musicals</option>
+      <option>Mystery</option>
+      <option>Romance</option>
+      <option>Thriller</option>
     </select>
 
     <div class="submit">
@@ -30,28 +28,28 @@
 </template>
 
 <script>
+import moviesStore from '@/store/moviesStore';
 export default {
-     data() {
-        return {
-             movie: {},
-        }
-     },
-     methods: {
-        handleSubmit() {
-            console.log(this.movie)
-        }
-     }
-     
-}
+  data() {
+    return {
+      movie: {},
+    };
+  },
+  methods: {
+    handleSubmit() {
+      console.log(this.movie);
+      moviesStore.dispatch("createMovie",this.movie)
+    },
+  },
+};
 </script>
 
 <style>
 select {
-    background: lightgray;
-    font-weight: bold;
-    font-size: 20px;
-    color: black;
-    margin-top: 10px;
+  background: lightgray;
+  font-weight: bold;
+  font-size: 20px;
+  color: black;
+  margin-top: 10px;
 }
-
-    </style>
+</style>
