@@ -4,13 +4,14 @@ import HttpService from "./HttpService";
 class MovieService extends HttpService{
 
     
-    getAll = async () => {
-        try{
+    getAll = async (page = null) => {
+        if(page){
+            const { data } = await this.client.get(`/movies?page=${page}`);
+            return data;
+        }
             const { data } = await this.client.get('/movies');
             return data;
-        }catch(e){
-            console.log(e);
-        }      
+        
     };
     get = async (id) => {
         const { data } = await this.client.get(`movies/${id}`);

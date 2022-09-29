@@ -54,7 +54,12 @@ export default createStore({
         localStorage.setItem('token', token);
 
         console.log("Current token", state.token)
-       }
+       },
+       SET_ACTIVE_USER_NULL(state){
+        console.log("NUll" )
+        state.activeUser = null,
+        state.errors = null
+       },
        
     },
 
@@ -78,7 +83,7 @@ export default createStore({
                 commit("SET_TOKEN",data.token)
                 commit("SET_ACTIVE_USER",user)
                 
-                router.push({name:"home"})
+                router.push({name:"MovieListPage"})
             }catch(e){
                 commit("SET_ERRORS",e);
             }
@@ -94,7 +99,7 @@ export default createStore({
         async logout({commit}){
             try{
                 await AuthService.logout()
-                commit("SET_ACTIVE_USER", {user: null})
+                commit("SET_ACTIVE_USER_NULL")
                 router.push({name: "LoginPage"})
                 console.log("Successed logout",)
             }catch(e){

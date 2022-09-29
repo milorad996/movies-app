@@ -38,6 +38,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.card {
+    justify-content: center;
+    margin:auto;
+    margin-bottom: 200px;
+    display: inline-table;
+}
 </style>

@@ -6,7 +6,6 @@
 
 
 <script>
-import store from './store/store'
 import NavBarComponent from './components/NavBarComponent.vue';
   export default {
        data() {
@@ -18,24 +17,7 @@ import NavBarComponent from './components/NavBarComponent.vue';
     NavBarComponent,
 
 },
-       methods: {
-        activeUser(){
-          setTimeout(() => {
-            console.log("ppppppppppppp", store.getters.getActiveUser )
-            console.log("get tokennnnnnn", store.state.token)
-          }, 3000);
-        }
-       },
-       computed: {
-        getActiveUser() {
-        
-            console.log("ppppppppppppp", store.state.activeUser )
-
-          
-          
-          return store.getters.getActiveUser
-        }
-       }
+      
       
        
 
