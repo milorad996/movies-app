@@ -1,13 +1,13 @@
 <template>
   <form @submit.prevent="handleSubmit">
     <label>Title:</label>
-    <input text="text" required v-model="movie.title" />
+    <input text="text" required v-model="genre.movies.title" />
     <label>Description:</label>
-    <input text="text" required v-model="movie.description" />
+    <input text="text" required v-model="genre.movies.description" />
     <label>Image:</label>
-    <input text="text" required v-model="movie.image" />
+    <input text="text" required v-model="genre.movies.image" />
 
-    <select v-model="movie.genre">
+    <select v-model="genre.genre">
       <option disabled value="">Please select one</option>
       <option>Action</option>
       <option>Adventure</option>
@@ -32,13 +32,15 @@ import moviesStore from '@/store/moviesStore';
 export default {
   data() {
     return {
-      movie: {},
+      genre: {
+        movies: {}
+      },
     };
   },
   methods: {
     handleSubmit() {
-      console.log(this.movie);
-      moviesStore.dispatch("createMovie",this.movie)
+      console.log(this.genre);
+      moviesStore.dispatch("createMovie",this.genre)
     },
   },
 };

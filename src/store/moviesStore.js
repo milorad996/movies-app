@@ -28,11 +28,15 @@ export default createStore({
     },
     APPEND_MOVIES(state, movies) {
       console.log("Apendovani muvi", movies);
-     state.movies.data = state.movies.data.concat(movies.data)
+      state.movies.data = state.movies.data.concat(movies.data);
     },
-    ADD_MOVIE(state,movie){
-        console.log("Dobijen movie", movie)
-        state.movies.data.push(movie)
+    ADD_MOVIE(state, movie) {
+      console.log("Dobijen movie", movie);
+      state.movies.data.push(movie);
+    },
+    SET_MOVIES_BY_SEARCH(state,movies){
+      console.log("Search movie", movies);
+      state.movies.data = movies;
     }
   },
 
@@ -53,18 +57,35 @@ export default createStore({
       try {
         const movie = await MovieService.get(id);
         commit("SET_MOVIE", movie);
+        console.log(movie);
       } catch (e) {
         console.log(e);
       }
     },
-    async createMovie({commit}, newMovie){
-        try{
-            const movie = await MovieService.createMovie(newMovie);
-            commit("ADD_MOVIE",movie)       
-            router.push({ name: "MovieListPage" });
-        }catch(e){
-            console.log("Error add movie" , e)
+    async createMovie({ commit }, newMovie) {
+      try {
+        const movie = await MovieService.createMovie(newMovie);
+        commit("ADD_MOVIE", movie);
+        router.push({ name: "MovieListPage" });
+      } catch (e) {
+        console.log("Error add movie", e);
+      }
+    },
+    async searchByTerm({commit},payload) {
+    
+      try{
+        const movies = await MovieService.searchByTerm(payload.search_term.title,payload.current_page);
+        if (payload.current_page > 1) {
+          commit("APPEND_MOVIES", movies.movies);
+        } else {
+          commit("SET_MOVIES_BY_SEARCH",movies.movies.data);
+
         }
+        
+        
+      }catch(e){
+        console.log(e);
+      }
     }
   },
 });

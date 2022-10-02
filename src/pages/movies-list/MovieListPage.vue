@@ -1,58 +1,90 @@
 <template>
+  <SearchComponent  @search="search"/>
+  <FilterComponent/>
   <h1>All movies</h1>
+  
+  
+  <div class="cards">
   <div class="card" v-for="movie in movies" :key="movie?.id">
+  
+
     <img :src="movie?.image" alt="Avatar" style="width: 100%" />
     <div class="container">
       <h4>
         <b
           >Title:
-          <router-link :to="'/movies/' + movie.id">
+          <router-link :to="'/movies/' + movie?.id">
             {{ movie?.title }}</router-link
           >
         </b>
       </h4>
-      <h3>Genre: {{ movie?.genre }}</h3>
+      <h3>Genre: {{ movie?.genre?.genre }}</h3>
       <p>Description: {{ movie?.description }}</p>
     </div>
   </div>
-  <div v-if="(current_page != last_page)">
-  <PaginationComponent   @loadMore="loadMore" />
+  <div v-if="lengthMovie >= 10">
+  <div v-if="current_page != last_page" >
+    <PaginationComponent @loadMore="loadMore" />
+  </div>
+</div>
 </div>
 </template>
 
 <script>
+import SearchComponent from '@/components/SearchComponent.vue';
 import moviesStore from "@/store/moviesStore";
 import PaginationComponent from "@/components/PaginationComponent.vue";
+import FilterComponent from '@/components/FilterComponent.vue';
 export default {
   data() {
     return {
       current_page: 1,
-      
+      search_term: "",
     };
   },
   components: {
     PaginationComponent,
-  },
+    SearchComponent,
+    FilterComponent
+},
   computed: {
     movies() {
-      console.log("Movies in movie list", moviesStore.getters.getMovies.last_page);
+      console.log(
+        "Movies in movie list",
+        moviesStore.getters.getMovies.data
+      );
       return moviesStore.getters.getMovies.data;
     },
-    last_page(){
-      return moviesStore.getters.getMovies.last_page
-    }
+    lengthMovie(){
+      return moviesStore.getters.getMovies.data?.length
+    },
+    last_page() {
+      return moviesStore.getters.getMovies.last_page;
+    },
   },
   methods: {
     loadMore() {
-    
+      if(this.search_term) {
         this.current_page++;
-      moviesStore.dispatch("allMovies", this.current_page);
+        console.log("loeadmore searchTerm", !!this.search_term)
+        console.log("current_page searchTerm", this.current_page)
+    
+        moviesStore.dispatch("searchByTerm",{search_term : this.search_term,current_page : this.current_page})
+      }else{
+        this.current_page++;
+        moviesStore.dispatch("allMovies", this.current_page);
+      }
       
-     
     },
+    search(term){
+      this.search_term = term;
+      console.log("Searchtermee" ,this.search_term ,this.current_page)
+      console.log("term",term)
+      moviesStore.dispatch("searchByTerm",{search_term : this.search_term,current_page : this.current_page})
+    }
   },
   mounted() {
-    moviesStore.dispatch("allMovies",this.current_page);
+    moviesStore.dispatch("allMovies", this.current_page);
   },
 };
 </script>
@@ -74,6 +106,7 @@ h1 {
   margin-left: 10px;
   margin-bottom: 10px;
   box-shadow: 5px 5px greenyellow;
+  
 }
 
 .card:hover {
@@ -82,5 +115,8 @@ h1 {
 
 .container {
   padding: 2px 16px;
+}
+.cards{
+  margin-top: 200px;
 }
 </style>

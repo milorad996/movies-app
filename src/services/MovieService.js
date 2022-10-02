@@ -21,6 +21,11 @@ class MovieService extends HttpService{
         const { data } = await this.client.post("/movies", newMovie);
         return data;
     };
+    searchByTerm = async (searchTerm,page) => {
+        const {data} = await this.client.get(`/movies-search?title=${searchTerm}&page=${page}`);
+        console.log("Search in service" ,data)
+        return data;
+    }
 }
 
 

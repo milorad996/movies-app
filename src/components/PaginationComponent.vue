@@ -1,19 +1,18 @@
 <template>
-    <button id="load-more" @click="handleLoadMore" >Load More</button>
-
+  <button id="load-more" @click="handleLoadMore">Load More</button>
 </template>
 
 <script>
 export default {
-   methods: {
+  methods: {
     handleLoadMore() {
-        this.$emit('loadMore')
-    }
-   }
-}
+      this.$emit("loadMore");
+    },
+  },
+};
 </script>
 
-<style>
+<style scoped>
 #load-more {
   width: calc((100% / 3) - 8px);
   padding: 16px;
@@ -25,14 +24,14 @@ export default {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.15rem;
+  display: inline;
 }
- 
+
 #load-more:not([disabled]):hover {
   box-shadow: 0 1px 9px rgba(0, 0, 0, 0.2);
 }
- 
+
 #load-more[disabled] {
   background-color: #eaeaea !important;
 }
-
 </style>
