@@ -1,10 +1,11 @@
 <template>
   <SearchComponent  @search="search"/>
-  <FilterComponent/>
+  <FilterComponent @filter="filter"/>
   <h1>All movies</h1>
   
   
   <div class="cards">
+    
   <div class="card" v-for="movie in movies" :key="movie?.id">
   
 
@@ -20,7 +21,13 @@
       </h4>
       <h3>Genre: {{ movie?.genre?.genre }}</h3>
       <p>Description: {{ movie?.description }}</p>
+
+      
+   <button @click="like(movie?.id)"  class="likeButton">Like {{likes?.likes}}</button>
+   <button @click="dislike(movie?.id)" class="dislikeButton">Dislike {{dislikes?.dislikes}}</button>
+  
     </div>
+    
   </div>
   <div v-if="lengthMovie >= 10">
   <div v-if="current_page != last_page" >
@@ -40,6 +47,8 @@ export default {
     return {
       current_page: 1,
       search_term: "",
+      filter_term: "",
+      
     };
   },
   components: {
@@ -49,6 +58,8 @@ export default {
 },
   computed: {
     movies() {
+      console.log("Likes",moviesStore.getters.getMovie);
+
       console.log(
         "Movies in movie list",
         moviesStore.getters.getMovies.data
@@ -61,6 +72,14 @@ export default {
     last_page() {
       return moviesStore.getters.getMovies.last_page;
     },
+    likes(){
+      console.log("Likes",moviesStore.getters.getMovie)
+      return moviesStore.getters.getMovie
+    },
+    dislikes(){
+      console.log("Dislikes",moviesStore.getters.getMovie)
+      return moviesStore.getters.getMovie
+    }
   },
   methods: {
     loadMore() {
@@ -70,6 +89,9 @@ export default {
         console.log("current_page searchTerm", this.current_page)
     
         moviesStore.dispatch("searchByTerm",{search_term : this.search_term,current_page : this.current_page})
+      }else if(this.filter_term){
+        this.current_page++;
+        moviesStore.dispatch("filterByTerm",{filter_term : this.filter_term,current_page : this.current_page})
       }else{
         this.current_page++;
         moviesStore.dispatch("allMovies", this.current_page);
@@ -81,8 +103,21 @@ export default {
       console.log("Searchtermee" ,this.search_term ,this.current_page)
       console.log("term",term)
       moviesStore.dispatch("searchByTerm",{search_term : this.search_term,current_page : this.current_page})
+    },
+    filter(term){
+      this.filter_term = term;
+      console.log("Dobijen filter term u filteru", this.filter_term)
+      moviesStore.dispatch("filterByTerm",{filter_term : this.filter_term,current_page : this.current_page})
+    },
+    like(id){
+      moviesStore.dispatch("createLike",{like: 1, movieId : id})
+      console.log("Clicked like",id)
+    },
+    dislike(id){
+      moviesStore.dispatch("createDislike",{dislike: 1, movieId : id})
     }
   },
+ 
   mounted() {
     moviesStore.dispatch("allMovies", this.current_page);
   },
@@ -119,4 +154,16 @@ h1 {
 .cards{
   margin-top: 200px;
 }
+.likeButton{
+  background: blue;
+  
+
+}
+.dislikeButton{
+  background: red;
+  
+  
+}
+
+
 </style>

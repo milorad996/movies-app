@@ -26,6 +26,11 @@ class MovieService extends HttpService{
         console.log("Search in service" ,data)
         return data;
     }
+    filterByTerm = async (filterTerm,page) => {
+        const {data} = await this.client.get(`/movies-filter?genre=${filterTerm}&page=${page}`);
+        console.log("Filter in service" , data)
+        return data;
+    }
 }
 
 

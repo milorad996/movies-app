@@ -1,4 +1,5 @@
 import router from "@/router";
+import LikeService from "@/services/LikeService";
 import MovieService from "@/services/MovieService";
 import { createStore } from "vuex";
 
@@ -36,6 +37,10 @@ export default createStore({
     },
     SET_MOVIES_BY_SEARCH(state,movies){
       console.log("Search movie", movies);
+      state.movies.data = movies;
+    },
+    SET_MOVIES_BY_FILTER(state,movies){
+      console.log("Movies set filter",movies)
       state.movies.data = movies;
     }
   },
@@ -86,6 +91,46 @@ export default createStore({
       }catch(e){
         console.log(e);
       }
+    },
+    async filterByTerm({commit},payload){
+      console.log("Payload in filter" ,payload)
+      try{
+        const movies = await MovieService.filterByTerm(payload.filter_term.genre,payload.current_page);
+        console.log("Movies filter" ,movies.genre.data)
+        if (payload.current_page > 1) {
+          commit("APPEND_MOVIES", movies.genre.data);
+        } else {
+          commit("SET_MOVIES_BY_FILTER",movies.genre.data);
+  
+        }
+      }catch(e){
+        console.log(e);
+      }
+    },
+    async createLike({commit}, payload){
+      console.log("Create like",payload)
+      try{
+        const movie = await LikeService.createLike({"likeDislike" : {"like": payload.like}},payload.movieId)
+        console.log("Create like all movies", movie);
+        commit("SET_MOVIE",movie);
+        router.push({ name: "MovieListPage" });
+      }catch(e){
+        console.log(e);
+      }
+    },
+    async createDislike({commit}, payload){
+      console.log("Create like",payload)
+      try{
+        const movie = await LikeService.createDislike({"likeDislike" : {"dislike": payload.dislike}},payload.movieId)
+        console.log("Create dislike all movies", movie);
+        commit("SET_MOVIE",movie);
+        router.push({ name: "MovieListPage" });
+      }catch(e){
+        console.log(e);
+      }
     }
+    
   },
+  
+ 
 });

@@ -1,14 +1,15 @@
 <template>
-  <div class="card" >
+  <div class="card">
     <img :src="movie?.image" alt="Avatar" style="width: 100%" />
     <div class="container">
       <h4>
         <b>Title: {{ movie?.title }}</b>
       </h4>
       <div>
-      <h3>Genre: {{ movie?.genre.genre }}</h3>
-    </div>
+        <h3>Genre: {{ movie?.genre.genre }}</h3>
+      </div>
       <p>Description: {{ movie?.description }}</p>
+      <h3>Review: {{movie?.review}}</h3>
     </div>
   </div>
 </template>

@@ -1,19 +1,18 @@
 <template>
 <div class="box">
-  <select >
-    <option value="0">Select Genre:</option>
-    <option value="1">Audi</option>
-    <option value="2">BMW</option>
-    <option value="3">Citroen</option>
-    <option value="4">Ford</option>
-    <option value="5">Honda</option>
-    <option value="6">Jaguar</option>
-    <option value="7">Land Rover</option>
-    <option value="8">Mercedes</option>
-    <option value="9">Mini</option>
-    <option value="10">Nissan</option>
-    <option value="11">Toyota</option>
-    <option value="12">Volvo</option>
+  <select @change="handleFilter" v-model="filter.genre" >
+    <option value="" disabled selected>Select Genre:</option>
+    <option genre="Action">Action</option>
+    <option genre="Adventure">Adventure</option>
+    <option genre="Comedy">Comedy</option>
+    <option genre="Drama">Drama</option>
+    <option genre="Fantasy">Fantasy</option>
+    <option genre="Horror">Horror</option>
+    <option genre="Musicals">Musicals</option>
+    <option genre="Mystery">Mystery</option>
+    <option genre="Romance">Romance</option>
+    <option genre="Thriller">Thriller</option>
+  
   </select>
 </div>
 </template>
@@ -31,6 +30,7 @@ export default {
     
     handleFilter(){
         console.log("Handle filter" ,this.filter)
+        this.$emit("filter" ,this.filter)
     }
   },
 };
@@ -61,6 +61,9 @@ body {
   -webkit-appearance: button;
   appearance: button;
   outline: none;
+}
+option{
+  color: black;
 }
 
 .box::before {
