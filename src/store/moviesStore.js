@@ -1,4 +1,5 @@
 import router from "@/router";
+import CommentService from "@/services/CommentService";
 import LikeService from "@/services/LikeService";
 import MovieService from "@/services/MovieService";
 import { createStore } from "vuex";
@@ -112,7 +113,15 @@ export default createStore({
       try{
         const movie = await LikeService.createLike({"likeDislike" : {"like": payload.like}},payload.movieId)
         console.log("Create like all movies", movie);
-        commit("SET_MOVIE",movie);
+        console.log("all movies in createLike", this.state.movies.data)
+        this.state.movies.data.forEach(function(element) {
+          if(element.id == movie.movie.id){
+           element = movie.movie
+          }
+          
+        })
+        //console.log("new movies create like", newMovies);
+        commit("SET_MOVIES",this.state.movies);
         router.push({ name: "MovieListPage" });
       }catch(e){
         console.log(e);
@@ -123,8 +132,20 @@ export default createStore({
       try{
         const movie = await LikeService.createDislike({"likeDislike" : {"dislike": payload.dislike}},payload.movieId)
         console.log("Create dislike all movies", movie);
+        
+
         commit("SET_MOVIE",movie);
         router.push({ name: "MovieListPage" });
+      }catch(e){
+        console.log(e);
+      }
+    },
+    async addComment({commit},payload){
+      console.log("Add comment payload" , payload)
+      try{
+        const movie = await CommentService.addComment(payload.comment,payload.id)
+        console.log("Movie comment" ,movie);
+        commit("SET_MOVIE",movie)
       }catch(e){
         console.log(e);
       }
