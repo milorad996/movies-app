@@ -1,6 +1,6 @@
 import router from "@/router";
 import CommentService from "@/services/CommentService";
-import LikeService from "@/services/LikeService";
+import LikeDislikeService from "@/services/LikeDislikeService";
 import MovieService from "@/services/MovieService";
 import { createStore } from "vuex";
 
@@ -8,6 +8,7 @@ export default createStore({
   state: {
     movies: [],
     movie: null,
+    comments: []
   },
 
   getters: {
@@ -17,6 +18,9 @@ export default createStore({
     getMovie(state) {
       return state.movie;
     },
+    getComment(state){
+      return state.comments;
+    }
   },
 
   mutations: {
@@ -43,6 +47,19 @@ export default createStore({
     SET_MOVIES_BY_FILTER(state,movies){
       console.log("Movies set filter",movies)
       state.movies.data = movies;
+    },
+    SET_MOVIES_BY_LIKE(state,movies){
+      state.movies.data = movies;
+    },
+    SET_MOVIES_BY_DISLIKE(state,movies){
+      state.movies.data = movies;
+    },
+    SET_COMMENTS(state,comments){
+      console.log("Comments in setComments",comments);
+      state.comments = comments;
+    },
+    APPEND_COMMENTS(state,comments){
+      state.comments.data = state.comments.data.concat(comments.data);
     }
   },
 
@@ -111,18 +128,13 @@ export default createStore({
     async createLike({commit}, payload){
       console.log("Create like",payload)
       try{
-        const movie = await LikeService.createLike({"likeDislike" : {"like": payload.like}},payload.movieId)
-        console.log("Create like all movies", movie);
-        console.log("all movies in createLike", this.state.movies.data)
-        this.state.movies.data.forEach(function(element) {
-          if(element.id == movie.movie.id){
-           element = movie.movie
-          }
-          
-        })
-        //console.log("new movies create like", newMovies);
-        commit("SET_MOVIES",this.state.movies);
-        router.push({ name: "MovieListPage" });
+        const movies = await LikeDislikeService.createLike({"likes" : {"like": payload.like}},payload.movieId)
+        console.log("Create like all movies", movies);
+        console.log("all movies in createLike", this.state.movies.data[1].like_dislike)
+        
+    
+        commit("SET_MOVIES_BY_LIKE",movies);
+        //router.push({ name: "MovieListPage" });
       }catch(e){
         console.log(e);
       }
@@ -130,11 +142,11 @@ export default createStore({
     async createDislike({commit}, payload){
       console.log("Create like",payload)
       try{
-        const movie = await LikeService.createDislike({"likeDislike" : {"dislike": payload.dislike}},payload.movieId)
-        console.log("Create dislike all movies", movie);
+        const movies = await LikeDislikeService.createDislike({"dislikes" : {"dislike": payload.dislike}},payload.movieId)
+        console.log("Create dislike all movies", movies);
         
 
-        commit("SET_MOVIE",movie);
+        commit("SET_MOVIES_BY_DISLIKE",movies);
         router.push({ name: "MovieListPage" });
       }catch(e){
         console.log(e);
@@ -143,9 +155,23 @@ export default createStore({
     async addComment({commit},payload){
       console.log("Add comment payload" , payload)
       try{
-        const movie = await CommentService.addComment(payload.comment,payload.id)
-        console.log("Movie comment" ,movie);
-        commit("SET_MOVIE",movie)
+        const comments = await CommentService.addComment(payload.comment,payload.id)
+        console.log("Movie comment" ,comments);
+        commit("SET_COMMENTS",comments)
+      }catch(e){
+        console.log(e);
+      }
+    },
+    async getComments({commit},payload){
+      console.log("Comments id in getComments",payload);
+      try{
+        const comments = await CommentService.getComments(payload.id,payload.page);
+        console.log("Dobijeni comments acions",comments)
+        if (payload.page > 1) {
+          commit("APPEND_COMMENTS", comments);
+        } else {
+          commit("SET_COMMENTS", comments);
+        }
       }catch(e){
         console.log(e);
       }

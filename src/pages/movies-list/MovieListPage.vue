@@ -23,8 +23,8 @@
       <p>Description: {{ movie?.description }}</p>
 
       
-   <button @click="like(movie?.id)"  class="likeButton">Like {{likes?.likes}}</button>
-   <button @click="dislike(movie?.id)" class="dislikeButton">Dislike {{dislikes?.dislikes}}</button>
+   <button @click="like(movie?.id)"  class="likeButton">Like {{movie?.likes?.length}}</button>
+   <button @click="dislike(movie?.id)" class="dislikeButton">Dislike {{movie?.dislikes?.length}}</button>
   
     </div>
     
@@ -72,14 +72,7 @@ export default {
     last_page() {
       return moviesStore.getters.getMovies.last_page;
     },
-    likes(){
-      console.log("Likes",moviesStore.getters.getMovie)
-      return moviesStore.getters.getMovie
-    },
-    dislikes(){
-      console.log("Dislikes",moviesStore.getters.getMovie)
-      return moviesStore.getters.getMovie
-    }
+  
   },
   methods: {
     loadMore() {
@@ -154,15 +147,27 @@ h1 {
 .cards{
   margin-top: 200px;
 }
-.likeButton{
-  background: blue;
-  
 
+.likeButton {
+  background-color: white; 
+  color: blue;
+  font-weight: bold;  
+  border: 2px solid blue;
+}
+
+.likeButton:hover {
+  background-color: blue;
+  color: white;
 }
 .dislikeButton{
-  background: red;
-  
-  
+  background-color: white; 
+  color: red; 
+  font-weight: bold;
+  border: 2px solid red; 
+}
+.dislikeButton:hover {
+  background-color: red;
+  color: white;
 }
 
 

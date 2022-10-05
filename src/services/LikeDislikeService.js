@@ -1,7 +1,7 @@
 import HttpService from "./HttpService";
 
 
-class LikeService extends HttpService {
+class LikeDislikeService extends HttpService {
     
 
     createLike = async (newLike,movieId) => {
@@ -16,4 +16,4 @@ class LikeService extends HttpService {
     };
 }
 
-export default new LikeService()
+export default new LikeDislikeService()
