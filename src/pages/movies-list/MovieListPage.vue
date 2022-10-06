@@ -1,14 +1,40 @@
 <template>
   <SearchComponent  @search="search"/>
   <FilterComponent @filter="filter"/>
+  <SidebarComponent/>
   <h1>All movies</h1>
   
   
   <div class="cards">
+    <div v-if="filter_term">  
+  <div class="card" v-for="movie in movies" :key="movie?.id">
+     
+     
+    <img :src="movie?.image" alt="Avatar" style="width: 100%" />
+    <div class="container">
+      <h4>
+        <b
+          >Title:
+          <router-link :to="'/movies/' + movie?.id">
+            {{ movie?.title }}</router-link
+          >
+        </b>
+      </h4>
+      <h3>Genre: {{ movie?.genre }}</h3>
+      <p>Description: {{ movie?.movies?.description }}</p>
+
+      
+   <button @click="like(movie?.id)"  class="likeButton">Like {{movie?.likes?.length}}</button>
+   <button @click="dislike(movie?.id)" class="dislikeButton">Dislike {{movie?.dislikes?.length}}</button>
+  
+    </div>
     
+  </div>
+</div> 
+  <div v-if="!filter_term">  
   <div class="card" v-for="movie in movies" :key="movie?.id">
   
-
+     
     <img :src="movie?.image" alt="Avatar" style="width: 100%" />
     <div class="container">
       <h4>
@@ -29,6 +55,7 @@
     </div>
     
   </div>
+</div> 
   <div v-if="lengthMovie >= 10">
   <div v-if="current_page != last_page" >
     <PaginationComponent @loadMore="loadMore" />
@@ -42,6 +69,7 @@ import SearchComponent from '@/components/SearchComponent.vue';
 import moviesStore from "@/store/moviesStore";
 import PaginationComponent from "@/components/PaginationComponent.vue";
 import FilterComponent from '@/components/FilterComponent.vue';
+import SidebarComponent from '../../components/SidebarComponent.vue';
 export default {
   data() {
     return {
@@ -54,7 +82,8 @@ export default {
   components: {
     PaginationComponent,
     SearchComponent,
-    FilterComponent
+    FilterComponent,
+    SidebarComponent
 },
   computed: {
     movies() {
@@ -72,6 +101,12 @@ export default {
     last_page() {
       return moviesStore.getters.getMovies.last_page;
     },
+    movies_genres(){
+      console.log("Movies by filter", moviesStore.getters.getMovies?.data)
+
+       return moviesStore.getters.getMovies
+
+    }
   
   },
   methods: {

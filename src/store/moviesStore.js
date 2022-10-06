@@ -8,7 +8,8 @@ export default createStore({
   state: {
     movies: [],
     movie: null,
-    comments: []
+    comments: [],
+    popularMovies: []
   },
 
   getters: {
@@ -20,7 +21,11 @@ export default createStore({
     },
     getComment(state){
       return state.comments;
+    },
+    getPopularMovies(state){
+      return state.popularMovies
     }
+    
   },
 
   mutations: {
@@ -60,7 +65,11 @@ export default createStore({
     },
     APPEND_COMMENTS(state,comments){
       state.comments.data = state.comments.data.concat(comments.data);
+    },
+    SET_POPULAR_MOVIES(state,movies){
+      state.popularMovies = movies
     }
+  
   },
 
   actions: {
@@ -114,11 +123,13 @@ export default createStore({
       console.log("Payload in filter" ,payload)
       try{
         const movies = await MovieService.filterByTerm(payload.filter_term.genre,payload.current_page);
-        console.log("Movies filter" ,movies.genre.data)
+        console.log("Movies filter" ,movies.data)
         if (payload.current_page > 1) {
-          commit("APPEND_MOVIES", movies.genre.data);
+          commit("APPEND_MOVIES", movies.data);
         } else {
-          commit("SET_MOVIES_BY_FILTER",movies.genre.data);
+          console.log("Movies filter" ,movies.data)
+
+          commit("SET_MOVIES_BY_FILTER",movies.data);
   
         }
       }catch(e){
@@ -172,6 +183,15 @@ export default createStore({
         } else {
           commit("SET_COMMENTS", comments);
         }
+      }catch(e){
+        console.log(e);
+      }
+    },
+    async getPopularMovies({commit}){
+      try{
+        const movies = await MovieService.getPopularMovies();
+        console.log("Popular movies", movies)
+        commit("SET_POPULAR_MOVIES", movies)
       }catch(e){
         console.log(e);
       }

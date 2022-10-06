@@ -31,6 +31,10 @@ class MovieService extends HttpService{
         console.log("Filter in service" , data)
         return data;
     }
+    getPopularMovies = async() => {
+        const {data} = await this.client.get('/popular');
+        return data;
+    }
 }
 
 
