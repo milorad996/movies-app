@@ -1,4 +1,5 @@
 <template>
+  <SidebarSingleMoviePage  :genre="movie?.genre?.genre"/>
   <div class="card">
     <img :src="movie?.image" alt="Avatar" style="width: 100%" />
     <div class="container">
@@ -6,7 +7,7 @@
         <b>Title: {{ movie?.title }}</b>
       </h4>
       <div>
-        <h3>Genre: {{ movie?.genre.genre }}</h3>
+        <h3>Genre: {{ movie?.genre?.genre }}</h3>
       </div>
       <p>Description: {{ movie?.description }}</p>
       <h3>Review: {{ movie?.review }}</h3>
@@ -33,10 +34,12 @@
 import moviesStore from "@/store/moviesStore";
 import { useRoute } from "vue-router";
 import CommentsPaginationComponent from "../../../components/CommentsPaginationComponent.vue";
+import SidebarSingleMoviePage from "@/components/SidebarSingleMoviePage.vue";
 export default {
     components: {
-        CommentsPaginationComponent
-    },
+    CommentsPaginationComponent,
+    SidebarSingleMoviePage
+},
     data() {
         return {
             id: null,
@@ -44,6 +47,14 @@ export default {
             current_page: 1,
         };
     },
+    watch: {
+		$route (to ){
+        this.id = to.params.id;
+        moviesStore.dispatch("getMovie", to.params.id);
+        moviesStore.dispatch("getComments", to.params.id);
+        moviesStore.dispatch("getMoviesByGenre",this.movie?.genre?.genre )
+		}
+	},
     methods: {
         addComment() {
             console.log("Add comment", this.comment, this.id);
@@ -61,6 +72,7 @@ export default {
         this.id = route.params.id;
         moviesStore.dispatch("getMovie", route.params.id);
         moviesStore.dispatch("getComments", route.params.id);
+        moviesStore.dispatch("getMoviesByGenre",this.movie?.genre?.genre )
     },
     computed: {
         movie() {

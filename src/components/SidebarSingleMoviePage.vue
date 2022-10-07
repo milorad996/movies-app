@@ -1,74 +1,70 @@
 <template>
-      
-      <nav>
+    <nav>
         
         <div>
-            <h3 v-if="!!popularMovies">The 10 Most Popular Movies</h3>
-            <router-link :to="'/movies/' + popularMovies[0]?.id">
-            {{ popularMovies[0]?.title }}</router-link
+            <h3>Top 10 {{moviesByGenre[0]?.title}} Movies</h3>
+            <router-link  :to="'/movies/' + moviesByGenre[0]?.id">
+            {{ moviesByGenre[0]?.title }}</router-link
           >
-          <router-link :to="'/movies/' + popularMovies[1]?.id">
-            {{ popularMovies[1]?.title }}</router-link
+          <router-link :to="'/movies/' + moviesByGenre[1]?.id">
+            {{ moviesByGenre[1]?.title }}</router-link
           >
-          <router-link :to="'/movies/' + popularMovies[2]?.id">
-            {{ popularMovies[2]?.title }}</router-link
+          <router-link :to="'/movies/' + moviesByGenre[2]?.id">
+            {{ moviesByGenre[2]?.title }}</router-link
           >
-          <router-link :to="'/movies/' + popularMovies[3]?.id">
-            {{ popularMovies[3]?.title }}</router-link
+          <router-link :to="'/movies/' + moviesByGenre[3]?.id">
+            {{ moviesByGenre[3]?.title }}</router-link
           >
-          <router-link :to="'/movies/' + popularMovies[4]?.id">
-            {{ popularMovies[4]?.title }}</router-link
+          <router-link :to="'/movies/' + moviesByGenre[4]?.id">
+            {{ moviesByGenre[4]?.title }}</router-link
           >
-          <router-link :to="'/movies/' + popularMovies[5]?.id">
-            {{ popularMovies[5]?.title }}</router-link
+          <router-link :to="'/movies/' + moviesByGenre[5]?.id">
+            {{ moviesByGenre[5]?.title }}</router-link
           >
-          <router-link :to="'/movies/' + popularMovies[6]?.id">
-            {{ popularMovies[6]?.title }}</router-link
+          <router-link :to="'/movies/' + moviesByGenre[6]?.id">
+            {{ moviesByGenre[6]?.title }}</router-link
           >
-          <router-link :to="'/movies/' + popularMovies[7]?.id">
-            {{ popularMovies[7]?.title }}</router-link
+          <router-link :to="'/movies/' + moviesByGenre[7]?.id">
+            {{ moviesByGenre[7]?.title }}</router-link
           >
-          <router-link :to="'/movies/' + popularMovies[8]?.id">
-            {{ popularMovies[8]?.title }}</router-link
+          <router-link :to="'/movies/' + moviesByGenre[8]?.id">
+            {{ moviesByGenre[8]?.title }}</router-link
           >
-          <router-link :to="'/movies/' + popularMovies[9]?.id">
-            {{ popularMovies[9]?.title }}</router-link
+          <router-link :to="'/movies/' + moviesByGenre[9]?.id">
+            {{ moviesByGenre[9]?.title }}</router-link
           >
-    
         </div>
     </nav>
 </template>
 
 <script>
-import moviesStore from '@/store/moviesStore';
+import moviesStore from '@/store/moviesStore'
 export default {
-   data() {
+	props: ['genre'],
+    data() {
+        return {
 
-    return {
-        movies: [],
-    
-    }
-   },
-   mounted(){
-    moviesStore.dispatch("getPopularMovies")
-   },
-   
-
-   computed: {
-    popularMovies() {
-        console.log("Popularrrrr movies", moviesStore.getters.getPopularMovies)
-        return moviesStore.getters.getPopularMovies
-        
-    }
-   }
-   
-   
+        }
+    },
+	
+    mounted(){
+	
+    },
+	methods: {
+		showGenre(){
+			console.log("Genre sidebar", this.genre)
+		}
+	},
+	computed: {
+		moviesByGenre(){
+			return moviesStore.getters.getMoviesByGenre
+		}
+	}
 
 }
 </script>
 
 <style scoped>
-
 body
 {
 	font-family: sans-serif;

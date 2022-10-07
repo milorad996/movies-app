@@ -9,7 +9,8 @@ export default createStore({
     movies: [],
     movie: null,
     comments: [],
-    popularMovies: []
+    popularMovies: [],
+    moviesByGenre: []
   },
 
   getters: {
@@ -24,6 +25,10 @@ export default createStore({
     },
     getPopularMovies(state){
       return state.popularMovies
+    },
+    getMoviesByGenre(state){
+      console.log("state.moviesByGenre", state.moviesByGenre)
+      return state.moviesByGenre
     }
     
   },
@@ -68,6 +73,10 @@ export default createStore({
     },
     SET_POPULAR_MOVIES(state,movies){
       state.popularMovies = movies
+    },
+    SET_MOVIES_BY_GENRE(state,movies){
+      console.log("set movies by genre", movies)
+      state.moviesByGenre = movies
     }
   
   },
@@ -192,6 +201,16 @@ export default createStore({
         const movies = await MovieService.getPopularMovies();
         console.log("Popular movies", movies)
         commit("SET_POPULAR_MOVIES", movies)
+      }catch(e){
+        console.log(e);
+      }
+    },
+    async getMoviesByGenre({commit}, genre){
+      console.log("genre store", genre)
+      try{
+        const movies = await MovieService.getMoviesByGenre(genre);
+        console.log("Movies by genre", movies)
+        commit("SET_MOVIES_BY_GENRE", movies);
       }catch(e){
         console.log(e);
       }
