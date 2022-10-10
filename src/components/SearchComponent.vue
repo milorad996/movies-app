@@ -73,7 +73,7 @@ button {
 
 #cover {
   position: absolute;
-  top: 25%;
+  top: 30%;
   left: 0;
   right: 0;
   height: 200px;
@@ -84,6 +84,7 @@ button {
   border-radius: 20px;
   box-shadow: 0 10px 40px #ff7c7c, 0 0 0 20px #78fed7;
   transform: scale(0.6);
+  
 }
 
 form {

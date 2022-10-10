@@ -5,6 +5,7 @@ import LoginPage from '../pages/auth/LoginPage.vue'
 import CreateMoviePage from '../pages/movies-list/CreateMoviePage.vue'
 import MovieListPage from '../pages/movies-list/MovieListPage.vue'
 import SingleMoviePage from '../pages/movies-list/single-movie/SingleMoviePage.vue'
+import WatchList from '../pages/movies-list/WatchList.vue'
 const routes = [
   {
     path: '/',
@@ -45,6 +46,11 @@ const routes = [
     path: '/movies/:id',
     name: 'SingleMoviePage',
     component: SingleMoviePage
+  },
+  {
+    path: '/lists',
+    name: 'WatchList',
+    component: WatchList
   }
 
 ]

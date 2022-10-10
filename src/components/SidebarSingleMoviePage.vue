@@ -2,7 +2,7 @@
     <nav>
         
         <div>
-            <h3>Top 10 {{moviesByGenre[0]?.title}} Movies</h3>
+            <h3>Top 10 {{moviesByGenre[0]?.genre?.genre}} Movies</h3>
             <router-link  :to="'/movies/' + moviesByGenre[0]?.id">
             {{ moviesByGenre[0]?.title }}</router-link
           >

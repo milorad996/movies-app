@@ -10,7 +10,8 @@ export default createStore({
     movie: null,
     comments: [],
     popularMovies: [],
-    moviesByGenre: []
+    moviesByGenre: [],
+    watchlist: []
   },
 
   getters: {
@@ -29,6 +30,10 @@ export default createStore({
     getMoviesByGenre(state){
       console.log("state.moviesByGenre", state.moviesByGenre)
       return state.moviesByGenre
+    },
+    getWatchlist(state){
+      console.log("getters watchlist", state.watchlist)
+      return state.watchlist;
     }
     
   },
@@ -77,6 +82,9 @@ export default createStore({
     SET_MOVIES_BY_GENRE(state,movies){
       console.log("set movies by genre", movies)
       state.moviesByGenre = movies
+    },
+    SET_WATCHLIST(state,movies){
+      state.watchlist = movies;
     }
   
   },
@@ -211,6 +219,47 @@ export default createStore({
         const movies = await MovieService.getMoviesByGenre(genre);
         console.log("Movies by genre", movies)
         commit("SET_MOVIES_BY_GENRE", movies);
+      }catch(e){
+        console.log(e);
+      }
+    },
+    async getWatchlist({commit}){
+      try{
+        const movies = await MovieService.getWatchlist();
+        console.log("Movie watchlist", movies);
+        commit("SET_WATCHLIST", movies)
+      }catch(e){
+        console.log(e);
+      }
+    },
+    async addToWatchList({commit}, payload){
+      console.log("Payload addToWatchList", payload);
+      try{
+        const movies = await MovieService.addToWatchList({"onWatchlist" : payload.onWatchlist},payload.id)
+        commit("SET_WATCHLIST",movies);
+        router.push({name: "WatchList"})
+
+      }catch(e){
+        console.log(e);
+      }
+    },
+    async removeFromWatchlist({commit},movieId){
+      console.log("Remove movieId", movieId)
+      try{
+        const movies = await MovieService.removeFromWatchlist(movieId)
+        commit("SET_WATCHLIST",movies)
+        router.push({name: "WatchList"})
+
+
+      }catch(e){
+        console.log(e);
+      }
+    },
+    async watched({commit},payload){
+      try{
+        const movies = await MovieService.watched({"watched" : payload.watched}, payload.watchlistId)
+        commit("SET_WATCHLIST",movies);
+        router.push({name: "WatchList"})
       }catch(e){
         console.log(e);
       }

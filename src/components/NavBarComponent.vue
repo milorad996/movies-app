@@ -11,6 +11,11 @@
         <router-link to="/create-movie">Create Movie</router-link>
       </p>
     </div>
+    <div class="div" id="about" v-if="isAuthenticatedComputed">
+      <p class="p">
+        <router-link to="/lists">Watchlist</router-link>
+      </p>
+    </div>
     <div class="div" id="contact" v-if="!isAuthenticatedComputed">
       <p class="p"><router-link to="/register">Register</router-link></p>
     </div>
@@ -34,7 +39,7 @@ export default {
   methods: {
     handleLogout() {
       store.dispatch("logout");
-      this.isAuthenticatedComputed = false;
+      //this.isAuthenticatedComputed = false;
     },
   },
   computed: {
@@ -57,6 +62,7 @@ export default {
   width: 250px;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: auto;
 }
 .p {
   font-size: 35px;
