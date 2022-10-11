@@ -50,7 +50,6 @@ export default {
       moviesStore.dispatch("removeFromWatchlist", movieId);
     },
     watched(id) {
-      console.log("Id watchlist", id);
       moviesStore.dispatch("watched", { watched: true, watchlistId: id });
     },
   },

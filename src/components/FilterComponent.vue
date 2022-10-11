@@ -29,7 +29,6 @@ export default {
   methods: {
     
     handleFilter(){
-        console.log("Handle filter" ,this.filter)
         this.$emit("filter" ,this.filter)
     }
   },

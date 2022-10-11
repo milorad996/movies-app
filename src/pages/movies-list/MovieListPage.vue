@@ -33,7 +33,7 @@
           <div
             v-if="
               movie?.watchlists?.length == 0 ||
-              !movie?.watchlists.find((element) => element.user_id == userId)
+              !movie?.watchlists?.find((element) => element.user_id == userId)
             "
           >
             <button @click="addToWatchList(movie?.id)" class="watchListButton">
@@ -93,9 +93,7 @@ export default {
   },
   computed: {
     movies() {
-      console.log("Likes", moviesStore.getters.getMovie);
 
-      console.log("Movies in movie list", moviesStore.getters.getMovies.data);
       return moviesStore.getters.getMovies.data;
     },
     lengthMovie() {
@@ -105,7 +103,6 @@ export default {
       return moviesStore.getters.getMovies.last_page;
     },
     movies_genres() {
-      console.log("Movies by filter", moviesStore.getters.getMovies?.data);
 
       return moviesStore.getters.getMovies;
     },
@@ -117,8 +114,7 @@ export default {
     loadMore() {
       if (this.search_term) {
         this.current_page++;
-        console.log("loeadmore searchTerm", !!this.search_term);
-        console.log("current_page searchTerm", this.current_page);
+        
 
         moviesStore.dispatch("searchByTerm", {
           search_term: this.search_term,
@@ -137,8 +133,7 @@ export default {
     },
     search(term) {
       this.search_term = term;
-      console.log("Searchtermee", this.search_term, this.current_page);
-      console.log("term", term);
+    
       moviesStore.dispatch("searchByTerm", {
         search_term: this.search_term,
         current_page: this.current_page,
@@ -146,7 +141,6 @@ export default {
     },
     filter(term) {
       this.filter_term = term;
-      console.log("Dobijen filter term u filteru", this.filter_term);
       moviesStore.dispatch("filterByTerm", {
         filter_term: this.filter_term,
         current_page: this.current_page,
@@ -154,7 +148,6 @@ export default {
     },
     like(id) {
       moviesStore.dispatch("createLike", { like: 1, movieId: id });
-      console.log("Clicked like", id);
     },
     dislike(id) {
       moviesStore.dispatch("createDislike", { dislike: 1, movieId: id });

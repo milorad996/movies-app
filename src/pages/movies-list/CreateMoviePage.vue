@@ -28,19 +28,18 @@
 </template>
 
 <script>
-import moviesStore from '@/store/moviesStore';
+import moviesStore from "@/store/moviesStore";
 export default {
   data() {
     return {
       genre: {
-        movies: {}
+        movies: {},
       },
     };
   },
   methods: {
     handleSubmit() {
-      console.log(this.genre);
-      moviesStore.dispatch("createMovie",this.genre)
+      moviesStore.dispatch("createMovie", this.genre);
     },
   },
 };

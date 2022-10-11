@@ -23,7 +23,6 @@ export default {
     },
     methods: {
         handleSearch(){
-            console.log("Handle seacrh",this.term)
             this.$emit("search",this.term);
         }
     },

@@ -75,14 +75,12 @@ export default {
   },
   methods: {
     addComment() {
-      console.log("Add comment", this.comment, this.id);
       moviesStore.dispatch("addComment", {
         comment: this.comment,
         id: this.id,
       });
     },
     loadMore() {
-      console.log("Load more");
       this.current_page++;
       moviesStore.dispatch("getComments", {
         id: this.id,
@@ -99,22 +97,15 @@ export default {
   },
   computed: {
     movie() {
-      console.log(
-        "Last page in single movie",
-        moviesStore.getters.getComment.last_page
-      );
+      
 
       return moviesStore.getters.getMovie;
     },
     comments() {
-      console.log(
-        "Comments in SingleMoviePage",
-        moviesStore.getters.getComment
-      );
+      
       return moviesStore.getters.getComment.data;
     },
     last_page_comments() {
-      console.log("Last page in single movie", moviesStore.getters.getComment);
       return moviesStore.getters.getComment;
     },
   },

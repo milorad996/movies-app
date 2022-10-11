@@ -39,12 +39,10 @@ export default {
   methods: {
     handleLogout() {
       store.dispatch("logout");
-      //this.isAuthenticatedComputed = false;
     },
   },
   computed: {
     isAuthenticatedComputed() {
-      console.log("IsAciteUser", store.getters.isAuthenticated);
       return store.getters.isAuthenticated;
     },
   },

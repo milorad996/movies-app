@@ -34,7 +34,9 @@
             {{ moviesByGenre[9]?.title }}</router-link
           >
         </div>
+
     </nav>
+
 </template>
 
 <script>
@@ -51,9 +53,7 @@ export default {
 	
     },
 	methods: {
-		showGenre(){
-			console.log("Genre sidebar", this.genre)
-		}
+		
 	},
 	computed: {
 		moviesByGenre(){

@@ -56,7 +56,6 @@ export default {
 
    computed: {
     popularMovies() {
-        console.log("Popularrrrr movies", moviesStore.getters.getPopularMovies)
         return moviesStore.getters.getPopularMovies
         
     }
