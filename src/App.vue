@@ -6,6 +6,8 @@
 
 
 <script>
+
+
 import NavBarComponent from './components/NavBarComponent.vue';
   export default {
        data() {

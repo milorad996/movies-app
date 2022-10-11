@@ -1,4 +1,9 @@
 <template>
+  <form @submit.prevent="handleOMDB">
+    <label>Create a Movie By OMDB Title:</label>
+    <input text="text" v-model="titleKey" />
+    <button>Add OMDB Title</button>
+  </form>
   <form @submit.prevent="handleSubmit">
     <label>Title:</label>
     <input text="text" required v-model="genre.movies.title" />
@@ -35,11 +40,27 @@ export default {
       genre: {
         movies: {},
       },
+      titleKey: "",
+      moviesList: {},
     };
   },
   methods: {
     handleSubmit() {
       moviesStore.dispatch("createMovie", this.genre);
+    },
+    async handleOMDB() {
+      const response = await fetch(
+        `https://www.omdbapi.com/?t=${this.titleKey}&apikey=a906cb38`
+      );
+      const data = await response.json();
+      this.moviesList = data;
+
+      this.genre.movies.title = this.moviesList.Title;
+      this.genre.movies.description = this.moviesList.Plot;
+      this.genre.movies.image = this.moviesList.Poster;
+      this.genre.genre = this.moviesList.Genre;
+
+      await moviesStore.dispatch("createMovie", this.genre);
     },
   },
 };
