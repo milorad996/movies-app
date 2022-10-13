@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import OmdbService from "@/services/OmdbService";
 import moviesStore from "@/store/moviesStore";
 export default {
   data() {
@@ -49,10 +50,8 @@ export default {
       moviesStore.dispatch("createMovie", this.genre);
     },
     async handleOMDB() {
-      const response = await fetch(
-        `https://www.omdbapi.com/?t=${this.titleKey}&apikey=a906cb38`
-      );
-      const data = await response.json();
+      
+      const data = await OmdbService.getOmdbDataByTitle(this.titleKey);
       this.moviesList = data;
 
       this.genre.movies.title = this.moviesList.Title;

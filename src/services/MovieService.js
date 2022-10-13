@@ -56,6 +56,12 @@ class MovieService extends HttpService {
     const { data } = await this.client.put(`/lists/${id}`, watched);
     return data;
   };
+  getMoviesByElasticsearch = async (searchTerm,page = null) => {
+    const { data } = await this.client.get(
+      `/elastic-search?term=${searchTerm}&page=${page}`
+    );
+    return data;
+  }
 }
 
 export default new MovieService();

@@ -246,5 +246,20 @@ export default createStore({
         console.log(e);
       }
     },
+    async getMoviesByElasticsearch({ commit }, payload) {
+      try {
+        const movies = await MovieService.getMoviesByElasticsearch(
+          payload.search_term.title,
+          payload.current_page
+        );
+        if (payload.current_page > 1) {
+          commit("APPEND_MOVIES", movies.movies);
+        } else {
+          commit("SET_MOVIES_BY_SEARCH", movies.movies);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
 });

@@ -93,7 +93,6 @@ export default {
   },
   computed: {
     movies() {
-
       return moviesStore.getters.getMovies.data;
     },
     lengthMovie() {
@@ -103,7 +102,6 @@ export default {
       return moviesStore.getters.getMovies.last_page;
     },
     movies_genres() {
-
       return moviesStore.getters.getMovies;
     },
     watchlistMovies() {
@@ -114,7 +112,6 @@ export default {
     loadMore() {
       if (this.search_term) {
         this.current_page++;
-        
 
         moviesStore.dispatch("searchByTerm", {
           search_term: this.search_term,
@@ -133,11 +130,15 @@ export default {
     },
     search(term) {
       this.search_term = term;
-    
-      moviesStore.dispatch("searchByTerm", {
+
+      // moviesStore.dispatch("searchByTerm", {
+      //   search_term: this.search_term,
+      //   current_page: this.current_page,
+      // });
+      moviesStore.dispatch("getMoviesByElasticsearch" ,{
         search_term: this.search_term,
         current_page: this.current_page,
-      });
+      })
     },
     filter(term) {
       this.filter_term = term;
