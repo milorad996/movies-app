@@ -4,6 +4,19 @@
     <input text="text" v-model="titleKey" />
     <button>Add OMDB Title</button>
   </form>
+  <form enctype="multipart/form-data" @submit.prevent="handleSubmitImage">
+    <label for="avatar">Choose a image:</label>
+
+    <input
+      type="file"
+      class="uploadImage"
+      name="avatar"
+      accept="image/*"
+      @change="handleImageSelected"
+    />
+    <button>Upload</button>
+  </form>
+
   <form @submit.prevent="handleSubmit">
     <label>Title:</label>
     <input text="text" required v-model="genre.movies.title" />
@@ -35,6 +48,7 @@
 <script>
 import OmdbService from "@/services/OmdbService";
 import moviesStore from "@/store/moviesStore";
+import { ref } from "@vue/reactivity";
 export default {
   data() {
     return {
@@ -43,6 +57,34 @@ export default {
       },
       titleKey: "",
       moviesList: {},
+      selectedFile: "",
+      imgSrc: "",
+    };
+  },
+  setup() {
+    let imageFile = ref("");
+
+    function handleImageSelected(event) {
+      if (event.target.files.length === 0) {
+        imageFile.value = "";
+
+        return;
+      }
+
+      imageFile.value = event.target.files[0];
+    }
+    function handleSubmitImage() {
+      let formData = new FormData();
+
+      formData.append("small_size", imageFile.value);
+      formData.append("full_size", imageFile.value);
+      moviesStore.dispatch("uploadImage", formData);
+      
+    }
+
+    return {
+      handleImageSelected,
+      handleSubmitImage,
     };
   },
   methods: {
@@ -50,7 +92,6 @@ export default {
       moviesStore.dispatch("createMovie", this.genre);
     },
     async handleOMDB() {
-      
       const data = await OmdbService.getOmdbDataByTitle(this.titleKey);
       this.moviesList = data;
 

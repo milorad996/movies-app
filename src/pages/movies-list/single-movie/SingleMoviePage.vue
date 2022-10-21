@@ -22,8 +22,8 @@
         <button class="button-53" role="button">The movie was watched</button>
       </div>
       <h2 class="comments">Comments:</h2>
-      <div v-for="comment in comments" :key="comment.id">
-        <p>{{ comment.content }}</p>
+      <div v-for="comment in comments" :key="comment?.id">
+        <p>{{ comment?.content }}</p>
       </div>
       <CommentsPaginationComponent @loadMore="loadMore" />
 
@@ -97,12 +97,9 @@ export default {
   },
   computed: {
     movie() {
-      
-
       return moviesStore.getters.getMovie;
     },
     comments() {
-      
       return moviesStore.getters.getComment.data;
     },
     last_page_comments() {

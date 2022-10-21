@@ -1,5 +1,6 @@
 import router from "@/router";
 import CommentService from "@/services/CommentService";
+import ImageService from "@/services/ImageService";
 import LikeDislikeService from "@/services/LikeDislikeService";
 import MovieService from "@/services/MovieService";
 import { createStore } from "vuex";
@@ -94,7 +95,6 @@ export default createStore({
       try {
         const movie = await MovieService.get(id);
         commit("SET_MOVIE", movie);
-        console.log(movie);
       } catch (e) {
         console.log(e);
       }
@@ -169,7 +169,9 @@ export default createStore({
           payload.comment,
           payload.id
         );
+      
         commit("SET_COMMENTS", comments);
+      
       } catch (e) {
         console.log(e);
       }
@@ -257,6 +259,17 @@ export default createStore({
         } else {
           commit("SET_MOVIES_BY_SEARCH", movies.movies);
         }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async uploadImage({ commit }, fromData) {
+    
+      try {
+        await ImageService.uploadImage(fromData);
+      
+        commit("SET_MOVIES", this.state.movies);
+      
       } catch (e) {
         console.log(e);
       }

@@ -70,12 +70,16 @@
 </template>
 
 <script>
+
+
+
 import SearchComponent from "@/components/SearchComponent.vue";
 import moviesStore from "@/store/moviesStore";
 import PaginationComponent from "@/components/PaginationComponent.vue";
 import FilterComponent from "@/components/FilterComponent.vue";
 import SidebarComponent from "../../components/SidebarComponent.vue";
 import store from "@/store/store";
+
 export default {
   data() {
     return {
@@ -106,8 +110,10 @@ export default {
     },
     watchlistMovies() {
       return moviesStore.getters.getWatchlist;
+      
     },
   },
+ 
   methods: {
     loadMore() {
       if (this.search_term) {
@@ -166,7 +172,12 @@ export default {
 
   mounted() {
     moviesStore.dispatch("allMovies", this.current_page);
+  
+     
+
   },
+ 
+
 };
 </script>
 
